@@ -72,7 +72,7 @@ To isolate your project’s dependencies, it’s recommended to use a virtual en
    Run the following command to create a virtual environment named `env`:
 
    ```sh
-   python -m venv env
+   python -m venv deepfake_env
    ```
 
 2. **Activate the Virtual Environment**
