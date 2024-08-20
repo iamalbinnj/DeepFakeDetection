@@ -78,11 +78,11 @@ To isolate your project’s dependencies, it’s recommended to use a virtual en
 2. **Activate the Virtual Environment**
    * Windows:
       ```sh
-      .\env\Scripts\activate
+      .\deepfake_env\Scripts\activate
        ```
    * macOS/Linux:
       ```sh
-      source env/bin/activate
+      source deepfake_env/bin/activate
       ``` 
 
 3. **Install Dependencies**
