@@ -1,10 +1,8 @@
 tensorflow
 matplotlib
-numpy
-scipy
-opencv-python
-scikit-learn
-mtcnn 
-tqdm
-imageio
 pandas
+numpy
+imageio
+opencv-python
+IPython
+scikit-learn
