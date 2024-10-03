@@ -6,3 +6,4 @@ imageio
 opencv-python
 IPython
 scikit-learn
+Flask
