@@ -7,3 +7,4 @@ opencv-python
 IPython
 scikit-learn
 Flask
+flask-cors
