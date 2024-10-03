@@ -3,42 +3,33 @@ import numpy as np
 import tensorflow as tf
 import cv2
 import logging
-from fastapi import FastAPI, File, UploadFile, HTTPException, BackgroundTasks
-from fastapi.responses import JSONResponse
-from fastapi.middleware.cors import CORSMiddleware
+from flask import Flask, request, jsonify, render_template, send_from_directory
 
 # Initialize logging
 logging.basicConfig(level=logging.INFO)
 
-# Initialize FastAPI
-app = FastAPI()
+# Initialize Flask app
+app = Flask(__name__, template_folder="../web/templates", static_folder="../web/static")
 
-# Add CORS middleware to allow frontend requests
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Specify your frontend URL in production
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# Configure upload folder
+UPLOAD_FOLDER = os.path.join(os.getcwd(), 'api', 'uploads')
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Load the pre-trained model
 try:
-    model = tf.keras.models.load_model(
-        'E:\\deepfake_detector\\model\\deepfake_video_model.h5')
+    model = tf.keras.models.load_model('model/deepfake_video_model.h5')
     logging.info("Model loaded successfully")
 except Exception as e:
     logging.error(f"Failed to load model: {e}")
     model = None
 
-# Constants
+# Constants for video processing
 IMG_SIZE = 224
 MAX_SEQ_LENGTH = 20
 NUM_FEATURES = 2048
 
 # Build feature extractor (InceptionV3)
-
-
 def build_feature_extractor():
     feature_extractor = tf.keras.applications.InceptionV3(
         weights='imagenet',
@@ -53,12 +44,9 @@ def build_feature_extractor():
     outputs = feature_extractor(preprocessed)
     return tf.keras.Model(inputs, outputs, name="feature_extractor")
 
-
 feature_extractor = build_feature_extractor()
 
 # Load video frames and prepare for prediction
-
-
 def load_video(path, max_frames=0, resize=(IMG_SIZE, IMG_SIZE)):
     cap = cv2.VideoCapture(path)
     frames = []
@@ -85,8 +73,6 @@ def load_video(path, max_frames=0, resize=(IMG_SIZE, IMG_SIZE)):
     return np.array(frames)
 
 # Prepare video for prediction
-
-
 def prepare_single_video(frames):
     frames = frames[None, ...]
     frame_mask = np.zeros(shape=(1, MAX_SEQ_LENGTH), dtype="bool")
@@ -104,29 +90,29 @@ def prepare_single_video(frames):
     return frame_features, frame_mask
 
 # Cleanup function to remove uploaded video files
-
-
 def cleanup_video(video_path):
     if os.path.exists(video_path):
         os.remove(video_path)
         logging.info(f"Deleted temporary file: {video_path}")
 
 # Prediction endpoint
-
-@app.post("/predict")
-async def predict(background_tasks: BackgroundTasks, video: UploadFile = File(...)):
+@app.route('/predict', methods=['POST'])
+def predict():
     try:
-        if video.content_type not in ["video/mp4", "video/mov"]:
-            raise HTTPException(status_code=400, detail="Invalid video format")
+        if 'video' not in request.files:
+            return jsonify({"error": "No file part"}), 400
+        
+        video_file = request.files['video']
+        
+        if video_file.filename == '':
+            return jsonify({"error": "No selected file"}), 400
+        
+        if video_file.content_type not in ["video/mp4", "video/mov"]:
+            return jsonify({"error": "Invalid video format"}), 400
 
         # Save the uploaded video temporarily
-        uploads_dir = os.path.join(os.getcwd(), "api", "uploads")
-        os.makedirs(uploads_dir, exist_ok=True)
-
-        video_path = os.path.join(uploads_dir, video.filename)
-
-        with open(video_path, "wb") as f:
-            f.write(await video.read())
+        video_path = os.path.join(app.config['UPLOAD_FOLDER'], video_file.filename)
+        video_file.save(video_path)
         
         logging.info(f"Uploaded video saved at: {video_path}")
 
@@ -134,7 +120,7 @@ async def predict(background_tasks: BackgroundTasks, video: UploadFile = File(..
         frames = load_video(video_path)
 
         if len(frames) == 0:
-            raise HTTPException(status_code=400, detail="Could not read video")
+            return jsonify({"error": "Could not read video"}), 400
 
         # Prepare video for prediction
         frame_features, frame_mask = prepare_single_video(frames)
@@ -147,11 +133,19 @@ async def predict(background_tasks: BackgroundTasks, video: UploadFile = File(..
         # Log prediction result
         logging.info(f"Prediction result: {result}, Confidence: {confidence}")
 
-        # Schedule cleanup of the uploaded file after processing is complete
-        background_tasks.add_task(cleanup_video, video_path)
+        # Cleanup the uploaded file after processing is complete
+        cleanup_video(video_path)
 
-        return JSONResponse(content={"Result": result, "Confidence": confidence})
+        return jsonify({"Result": result, "Confidence": confidence})
 
     except Exception as e:
         logging.error(f"Error during prediction: {str(e)}")
-        raise HTTPException(status_code=500, detail="An error occurred during analysis.")
+        return jsonify({"error": "An error occurred during analysis."}), 500
+
+# Route to render the main page with the upload form
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+if __name__ == '__main__':
+    app.run(debug=True)
