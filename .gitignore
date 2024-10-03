@@ -1,5 +1,5 @@
 /dataset
-/src/__pycache__
+/*/__pycache__
 /deepfake_env
-/notebook/.ipynb_checkpoints
-/backup
+/*/.ipynb_checkpoints
+/model
