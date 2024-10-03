@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Upload and Analysis</title>
+    <link rel="stylesheet" href="./assest/css/style.css">
+    <style>
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #analyzeButton {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #analyzeButton:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="uploadForm" enctype="multipart/form-data">
+            <div id="dropArea" class="drop-area">
+                <p>Drag files here to add them to your repository</p>
+                <p>Or <span style="color: blue;">choose your files</span></p>
+                <input type="file" id="fileInput" name="video" accept="video/mp4,video/mov">
+            </div>
+        </form>
+        <button id="analyzeButton" disabled>Analyze</button>
+        <div id="loader" class="loader"></div>
+        <div id="resultContainer" class="result-container" style="display: none;">
+            <div class="video-container">
+                <video id="videoPlayer" controls></video>
+            </div>
+            <div class="analysis-container">
+                <p id="analysisResult"></p>
+            </div>
+        </div>
+    </div>
+    <script src="./assest/js/script.js"></script>
+</body>
+</html>
