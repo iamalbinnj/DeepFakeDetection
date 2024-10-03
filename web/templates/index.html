@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Upload and Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <form id="uploadForm" enctype="multipart/form-data">
+            <div id="dropArea" class="drop-area">
+                <p>Drag and drop your video file here</p>
+                <p>Or <span class="file-choose">choose a file</span></p>
+                <input type="file" id="fileInput" name="video" accept="video/mp4,video/mov">
+            </div>
+            <div id="videoPreview" class="video-preview" style="display: none;">
+                <video id="videoPlayer" controls></video>
+            </div>
+            <button id="analyzeButton" type="button" disabled>Analyze Video</button>
+            <div id="loader" class="loader" style="display: none;"></div>
+            <div id="resultContainer" class="result-container" style="display: none;">
+                <h3>Analysis Result:</h3>
+                <p id="analysisResult"></p>
+            </div>
+        </form>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

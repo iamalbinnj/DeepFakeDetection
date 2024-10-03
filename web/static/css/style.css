@@ -1,0 +1,95 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.drop-area {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.drop-area:hover {
+    background-color: #f8f8f8;
+}
+
+.file-choose {
+    color: #3498db;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#fileInput {
+    display: none;
+}
+
+.video-preview {
+    margin-bottom: 20px;
+}
+
+video {
+    width: 100%;
+    max-height: 400px;
+    border-radius: 8px;
+    background-color: #000;
+}
+
+.result-container {
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.loader {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#analyzeButton {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#analyzeButton:hover {
+    background-color: #2980b9;
+}
+
+#analyzeButton:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
