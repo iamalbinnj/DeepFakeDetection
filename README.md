@@ -2,7 +2,7 @@
 
 ## Description
 
-This project aims to detect deepfake images using a convolutional neural network (CNN) model. Deepfakes are synthetic media in which a person in an existing image or video is replaced with someone else's likeness. The proliferation of deepfakes poses significant ethical and security challenges, making the ability to detect such media crucial. This project leverages machine learning techniques to distinguish between real and fake images with a high degree of accuracy.
+This project focuses on detecting deepfakes in videos using a CNN-RNN architecture. A pre-trained InceptionV3 model extracts features from video frames, which are then fed into a GRU layer to capture temporal information. The model is trained on a labeled dataset and evaluated on test videos. The code includes functions for data preparation, model training, and prediction.
 
 ## Technologies Used
 
@@ -10,16 +10,17 @@ This project aims to detect deepfake images using a convolutional neural network
 - **Keras**: A high-level neural networks API, running on top of TensorFlow.
 - **OpenCV**: An open-source computer vision and machine learning software library.
 - **NumPy**: A fundamental package for scientific computing in Python.
+- **Flask**: A lightweight WSGI web application framework used to build the REST API for the project.
 
 ## Dataset
 
-The dataset used in this project consists of deepfake and real images and is sourced from Kaggle. You can download the dataset from the following link:
+The dataset used in this project consists of deepfake and real video and is sourced from Kaggle. You can download the dataset from the following link:
 
-[Deepfake and Real Images Dataset](https://www.kaggle.com/datasets/manjilkarki/deepfake-and-real-images)
+[Deepfake Detection Challenge](https://www.kaggle.com/competitions/deepfake-detection-challenge/data)
 
 ### Guide to Download the Dataset
 
-1. Visit the [Kaggle Dataset Page](https://www.kaggle.com/datasets/manjilkarki/deepfake-and-real-images).
+1. Visit the [Kaggle Dataset Page](https://www.kaggle.com/competitions/deepfake-detection-challenge/data).
 2. Log in to your Kaggle account.
 3. Click on the "Download" button to download the dataset.
 4. Extract the downloaded `.zip` file and place it in the `dataset` directory within the project structure.
@@ -31,27 +32,34 @@ The project is organized as follows:
 ```
 deepfake_detector/
 │
-├── models/
-│ └── deepfake_detector_model.h5
-|
-├── notebook/
-│ ├── create_model.ipynb
-│ ├── preprocess.ipynb
-│ ├── train_model.ipynb
-│ └── visualize.ipynb
-|
-├── src/
-│ ├── create_model.py
-│ ├── predict_image.py
-│ ├── preprocess.py
-│ ├── test_model.py
-│ ├── train_model.py
-| ├── validate_model.py
-│ └── visualize.py
-|
-├── .gitignore
-├── README.md
-└── requirements.txt
+├── api/                        
+│   ├── uploads/                
+│   └── app.py                 
+│
+├── dataset/                    
+│   ├── static/                 
+│   ├── test_videos/            
+│   └── train_sample_videos/    
+│
+├── model/                      
+│
+├── src/                        
+│   ├── notebook/              
+│       └── main.ipynb          
+│
+├── web/                        
+│   ├── static/                
+│   │   ├── css/                
+│   │   │   └── style.css       
+│   │   ├── js/                 
+│   │       └── script.js       
+│   └── templates/              
+│       └── index.html          
+│
+├── .gitignore                  
+├── README.md                   
+└── requirements.txt   
+
 ```
 
 ## Getting Started
@@ -62,6 +70,24 @@ Before running the project, ensure you have the following installed on your syst
 
 - **Python 3.7 or above**
 - **Git** (for cloning the repository)
+
+### Installation
+
+Follow these steps to set up the project on your local machine:
+
+1. **Clone the Repository**
+
+   First, clone the repository using Git:
+
+   ```sh
+   https://github.com/iamalbinnj/DeepFakeDetection.git
+   ```
+
+2. **Go to the project folder**
+
+   ```sh
+   cd DeepFakeDetection
+   ```
 
 ### Creating and Using a Virtual Environment
 
@@ -100,29 +126,12 @@ To isolate your project’s dependencies, it’s recommended to use a virtual en
    deactivate
    ```
 
-### Installation
+### Running the Flask App
 
-Follow these steps to set up the project on your local machine:
-
-1. **Clone the Repository**
-
-   First, clone the repository using Git:
-
-   ```sh
-   https://github.com/iamalbinnj/DeepFakeDetection.git
-   ```
-
-2. **Go to the project folder**
-
-   ```sh
-   cd DeepFakeDetection
-   ```
-
-3. **Install dependencies**
-
-   ```sh
-   pip install -r requirements.txt
-   ```
+After installing the dependencies run the ```app.py``` file to start the Flask API:
+```sh
+   python api/app.py
+```
 
 ## Challenges and Future Work
 
@@ -133,8 +142,7 @@ Follow these steps to set up the project on your local machine:
 
 ### Future Work
 - **Dataset Expansion**: Incorporate a larger and more diverse dataset to improve the model's robustness.
-- **Real-time Detection**: Extend the project to support real-time deepfake detection in video streams.
 - **Transfer Learning**: Experiment with transfer learning using pre-trained models on large image datasets to improve accuracy.
 
 ## Conclusion
-The "Deep Fake Image Detection" project demonstrates the effectiveness of deep learning models in distinguishing between real and fake images. Although the model achieves good accuracy, there are still challenges to address, particularly in terms of generalization and real-time application. The project provides a foundation for further research and development in the field of deepfake detection.
+The "Deep Fake Detection" project demonstrates the effectiveness of deep learning models in distinguishing between real and fake videos. The project provides a foundation for further research and development in the field of deepfake detection.
