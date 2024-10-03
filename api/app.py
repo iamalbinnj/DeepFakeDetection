@@ -18,7 +18,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Load the pre-trained model
 try:
-    model = tf.keras.models.load_model('model/deepfake_video_model.h5')
+    model = tf.keras.models.load_model('model/deepfake_video_model_2.keras')
     logging.info("Model loaded successfully")
 except Exception as e:
     logging.error(f"Failed to load model: {e}")
@@ -41,6 +41,7 @@ def build_feature_extractor():
 
     inputs = tf.keras.Input((IMG_SIZE, IMG_SIZE, 3))
     preprocessed = preprocess_input(inputs)
+    
     outputs = feature_extractor(preprocessed)
     return tf.keras.Model(inputs, outputs, name="feature_extractor")
 
