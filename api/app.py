@@ -128,7 +128,12 @@ def predict():
 
         # Make prediction
         prediction = model.predict([frame_features, frame_mask])[0]
-        result = 'FAKE' if prediction >= 0.51 else 'REAL'
+
+        if prediction >= 0.50:
+            result = 'REAL'
+        else:
+            result = 'FAKE'
+        
         confidence = float(prediction)
 
         # Log prediction result

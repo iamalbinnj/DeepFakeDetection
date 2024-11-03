@@ -3,3 +3,4 @@
 /deepfake_env
 /*/.ipynb_checkpoints
 /model
+.env

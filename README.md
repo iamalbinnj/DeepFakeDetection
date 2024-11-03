@@ -119,7 +119,13 @@ To isolate your project’s dependencies, it’s recommended to use a virtual en
    pip install -r requirements.txt
    ```
 
-4. **Deactivate the Virtual Environment**
+4. **Create Environment File**:
+   After installing the dependencies, create the `.env` file by running:
+   ```bash
+   cp .env.example .env && rm .env.example
+   ```
+
+5. **Deactivate the Virtual Environment**
 
    After working on the project, you can deactivate the virtual environment with the following command:
    ```sh
