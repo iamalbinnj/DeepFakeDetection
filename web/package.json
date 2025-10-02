@@ -1,0 +1,46 @@
+{
+  "name": "deepfakedetector",
+  "version": "0.1.1",
+  "private": true,
+  "description": "Deep Fake Detector web app",
+  "author": "Your Name <albinnj0214@gmail.com>",
+  "homepage": "https://github.com/iamalbinnj/DeepFakeDetection",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iamalbinnj/DeepFakeDetection.git"
+  },
+  "bugs": {
+    "url": "https://github.com/iamalbinnj/DeepFakeDetection/issues"
+  },
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build --turbopack",
+    "start": "next start",
+    "lint": "biome check",
+    "format": "biome format --write",
+    "release": "standard-version"
+  },
+  "keywords": [
+    "nextjs",
+    "tailwind",
+    "typescript",
+    "deepfake",
+    "ai",
+    "detector"
+  ],
+  "dependencies": {
+    "next": "15.5.4",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.0",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "standard-version": "^9.5.0",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
